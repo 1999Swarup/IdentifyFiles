@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Did you find the filetype?</title>
+    <style>
+
+ .login {
+  padding: 10px;
+  color: white;
+  background-color: #4B0082;
+}
+.custom-button {
+  padding: 10px;
+  color: white;
+  background-color: #8A2BE2;
+  cursor: pointer;
+  border: 5px #000;
+  border-radius:10px;
+}
+
+.custom-button:hover {
+  background-color: #FF5733;
+}
+
+.custom-text {
+  margin-left: 10px;
+  font-family: sans-serif;
+  color: white;
+  padding: 10px;
+  background-color: #8A2BE2;
+  cursor: pointer;
+  border: 5px #000;
+  border-radius:10px;
+}
+.custom-text:hover {
+  background-color: #000000;
+}
+
+    </style>
+  </head>
+  <body  class="login">
+    <div>
+      <h1>Predict File Type</h1>
+      <h3>
+        Choose a File("jenkinsfile"/"csproj"/"rexx"/"ml"/"mak"/"kt")
+      </h3>
+     <form action="" method=post enctype=multipart/form-data>
+      <p><input class="custom-button " type=file name=file>
+         <input class="custom-text" type=submit value=Upload>
+    </form>
+      <br>
+      <br>
+      {{ prediction_text }}
+    </div>
+
+  </body>
+</html>
