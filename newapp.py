@@ -11,13 +11,13 @@ import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
+model = pickle.load(open('modelfinal.sav', 'rb'))
 ALLOWED_EXTENSIONS = {'jenkinsfile', 'csproj', 'rexx', 'ml', 'mak', 'kt'}
 UPLOAD_FOLDER = 'uploads/'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app = Flask(__name__, template_folder='template')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-model = pickle.load(open('modelfinal.sav', 'rb'))
 
 
 @app.route('/')
@@ -155,20 +155,24 @@ def predict():
 
     end = time.time()
     eval_time = end - start
-    mydict = {
-        "jenkinsfile": '{} %'.format((cjen / 5) * 100),
-        "csproj": '{} %'.format((ccs / 5) * 100),
-        "rexx": '{} %'.format((crexx / 5) * 100),
-        "ml": '{} %'.format((cml / 5) * 100),
-        "mak": '{} %'.format((cmak / 5) * 100),
-        "kt": '{} %'.format((ckt / 5) * 100),
-        "CPU usage as a percentage": '{} %'.format(psutil.cpu_percent(interval=0.5)),
-        "Number of predictions that can be made per sec": (1 / eval_time),
-        "RAM usage in percent": '{} %'.format(psutil.virtual_memory().percent)
-    }
 
-    return mydict
+    cjenint = '{} %'.format((cjen / 5) * 100)
+    ccsint = '{} %'.format((ccs / 5) * 100)
+    crexxint = '{} %'.format((crexx / 5) * 100)
+    cmlint = '{} %'.format((cml / 5) * 100)
+    cmakint = '{} %'.format((cmak / 5) * 100)
+    cktint = '{} %'.format((ckt / 5) * 100)
+    cpuint = '{} %'.format(psutil.cpu_percent(interval=0.5))
+    ramint = '{} %'.format(psutil.virtual_memory().percent)
+
+    mystring = "jenkinsfile :  " + str(cjenint) + "\n csproj :  " + str(ccsint) + "\n rexx :  " + str(
+        crexxint) + "\n  ml : " + str(cmlint) + "\n mak :  " + str(cmakint) + "\n kt :  " + str(
+        cktint) + "\n CPU usage as a percentage :  " + str(
+        cpuint) + "\n Number of predictions that can be made per sec :  " + str(
+        1 / eval_time) + "\n RAM usage in percent :  " + str(ramint)
+
+    return mystring
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True)
